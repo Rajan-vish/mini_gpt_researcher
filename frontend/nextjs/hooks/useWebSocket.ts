@@ -56,14 +56,17 @@ export const useWebSocket = (
     const apiVariables = storedConfig ? JSON.parse(storedConfig) : {};
 
     if (typeof window !== 'undefined') {
-      
-      let fullHost = getHost()
-      const protocol = fullHost.includes('https') ? 'wss:' : 'ws:'
-      const cleanHost = fullHost.replace('http://', '').replace('https://', '')
-      const ws_uri = `${protocol}//${cleanHost}/ws`
 
-      console.log(`Creating new WebSocket connection to ${ws_uri}`);
-      const newSocket = new WebSocket(ws_uri);
+  const backend =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+
+  const ws_uri =
+    backend
+      .replace("https://", "wss://")
+      .replace("http://", "ws://") + "/ws";
+
+  console.log(`Creating new WebSocket connection to ${ws_uri}`);
+  const newSocket = new WebSocket(ws_uri);
       setSocket(newSocket);
 
       // WebSocket connection opened handler
