@@ -58,8 +58,9 @@ export const useWebSocket = (
     if (typeof window !== 'undefined') {
 
   const backend =
-    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_GPTR_API_URL ||
+  window.location.origin;
   const ws_uri =
     backend
       .replace("https://", "wss://")
